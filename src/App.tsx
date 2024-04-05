@@ -1,3 +1,5 @@
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useRef, useState } from 'react'
 
 function App() {
@@ -25,15 +27,16 @@ function App() {
     function submitInput(e: SubmitEvent) {
         e.preventDefault()
 
-        appendMessage(input)
+        appendMessage(input, true)
         pushHistory(input)
 
         setInput('')
         setHistoryIndex(-1)
     }
 
-    function appendMessage(text: string) {
+    function appendMessage(text: string, self: boolean) {
         const ele = document.createElement('p')
+        self ? (text = '> ' + text) : {}
         ele.textContent = text
         msgContainer.current?.appendChild(ele)
     }
@@ -73,13 +76,16 @@ function App() {
                             className="grow p-4 text-white font-mono"
                             ref={msgContainer}
                         >
-                            <p>out</p>
-                            <p>out</p>
-                            <p>out</p>
-                            <p>out</p>
-                            <p>out</p>
+                            <p>type below!</p>
                         </div>
-                        <form onSubmit={submitInput}>
+                        <form
+                            onSubmit={submitInput}
+                            className="w-full bg-slate-900 flex items-center p-2"
+                        >
+                            <FontAwesomeIcon
+                                icon={faChevronRight}
+                                className="text-green-300 px-2"
+                            />
                             <input
                                 type="text"
                                 autoFocus
@@ -89,7 +95,7 @@ function App() {
                                     setHistoryIndex(-1)
                                     setInput(text.currentTarget.value)
                                 }}
-                                className="w-full focus:outline-none p-2 text-white/80 bg-transparent"
+                                className="w-full focus:outline-none text-white/80 bg-transparent"
                             />
                         </form>
                     </div>
