@@ -6,6 +6,7 @@ function App() {
     const [input, setInput] = useState('')
     const [history, setHistory] = useState<string[]>([])
     const [historyIndex, setHistoryIndex] = useState(-1)
+    const [msgList, setMsgList] = useState<string[]>(['Type Below!'])
 
     const msgContainer = useRef<HTMLDivElement>(null)
 
@@ -35,10 +36,8 @@ function App() {
     }
 
     function appendMessage(text: string, self: boolean) {
-        const ele = document.createElement('p')
         self ? (text = '> ' + text) : {}
-        ele.textContent = text
-        msgContainer.current?.appendChild(ele)
+        setMsgList([...msgList, text])
     }
 
     function handleHistory(e: KeyboardEvent) {
@@ -62,8 +61,6 @@ function App() {
     }
 
     useEffect(() => {
-        console.log(history)
-        console.log(historyIndex)
         historyIndex != -1 ? setInput(history[historyIndex]) : {}
     }, [historyIndex])
 
@@ -76,7 +73,9 @@ function App() {
                             className="grow p-4 text-white font-mono"
                             ref={msgContainer}
                         >
-                            <p>type below!</p>
+                            {msgList.map((msg, index) => (
+                                <p key={index}>{msg}</p>
+                            ))}
                         </div>
                         <form
                             onSubmit={submitInput}
