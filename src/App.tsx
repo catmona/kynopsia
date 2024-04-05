@@ -54,9 +54,7 @@ function App() {
             case 'ArrowDown': {
                 e.preventDefault()
 
-                historyIndex >= history.length - 1
-                    ? setHistoryIndex(historyIndex - 1)
-                    : {}
+                historyIndex >= 0 ? setHistoryIndex(historyIndex - 1) : {}
                 historyIndex == 0 ? setInput('') : {}
                 break
             }
@@ -64,6 +62,8 @@ function App() {
     }
 
     useEffect(() => {
+        console.log(history)
+        console.log(historyIndex)
         historyIndex != -1 ? setInput(history[historyIndex]) : {}
     }, [historyIndex])
 
@@ -80,7 +80,7 @@ function App() {
                         </div>
                         <form
                             onSubmit={submitInput}
-                            className="w-full bg-slate-900 flex items-center p-2"
+                            className="w-full bg-slate-900 flex items-baseline p-2"
                         >
                             <FontAwesomeIcon
                                 icon={faChevronRight}
@@ -95,7 +95,7 @@ function App() {
                                     setHistoryIndex(-1)
                                     setInput(text.currentTarget.value)
                                 }}
-                                className="w-full focus:outline-none text-white/80 bg-transparent"
+                                className="w-full focus:outline-none text-white/80 bg-transparent pl-2"
                             />
                         </form>
                     </div>
